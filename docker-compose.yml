@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+    frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: frontend
+        ports:
+            - "3000:3000"
+        networks:
+            - supabase-network
+        volumes:
+            - .:/app
+
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        depends_on:
+            - frontend
+        ports:
+            - "80:80"
+        networks:
+            - supabase-network
+
+networks:
+    supabase-network:
