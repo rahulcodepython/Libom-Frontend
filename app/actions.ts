@@ -74,3 +74,21 @@ export const addBookAction = async (formData: BookFormType): Promise<ApiResponse
         return await handleApiError(error);
     }
 };
+
+export const editBookAction = async (formData: BookFormType, isbn_no: string): Promise<ApiResponseType> => {
+    const access = await getAccessToken();
+    const options = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access}`,
+        },
+        body: JSON.stringify(formData),
+    };
+    try {
+        const response = await fetch(urlGenerator(`/book/edit/${isbn_no}/`), options);
+        return await handleApiResponse(response);
+    } catch (error) {
+        return await handleApiError(error);
+    }
+};

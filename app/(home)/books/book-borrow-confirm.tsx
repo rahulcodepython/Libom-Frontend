@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button'
 import { CheckCircle, XCircle } from 'lucide-react'
+import { Span } from '@/components/ui/span';
 
 const BookBorrowConfirmation = () => {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -16,9 +17,9 @@ const BookBorrowConfirmation = () => {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger>
-                <Button className='w-full'>
+                <Span className='w-full'>
                     Borrow
-                </Button>
+                </Span>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

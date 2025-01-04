@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
-import BookBorrowConfirmation from "./BookBorrowConfirmation";
 import { isAuthenticated } from '@/utils/utils';
+import BookBorrowConfirmation from './book-borrow-confirm';
 
 const BookItem = async () => {
     const isAuth = await isAuthenticated();
