@@ -87,3 +87,25 @@ export const revalidateTokens = async (): Promise<boolean> => {
 
     return await fetchNewTokens(refresh as string);
 }
+
+export const handleApiResponse = async (response: Response) => {
+    const result = await response.json();
+    return {
+        status: response.status,
+        data: result,
+    };
+};
+
+export const handleApiError = async (error: any) => {
+    if (error instanceof Response) {
+        const errorData = await error.json();
+        return {
+            status: error.status,
+            data: { error: errorData.message },
+        };
+    }
+    return {
+        status: 500,
+        data: { error: "An unexpected error occurred" },
+    };
+};

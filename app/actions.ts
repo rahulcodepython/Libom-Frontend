@@ -1,28 +1,20 @@
 "use server";
 
-import { urlGenerator } from "@/utils/utils";
+import { ApiResponseType, BookFormType, SignInFormType, SignUpFormType } from "@/types";
+import { getAccessToken, handleApiError, handleApiResponse, urlGenerator } from "@/utils/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const signUpAction = async (formData: FormData) => {
-    const email = formData.get("email")?.toString();
-    const password = formData.get("password")?.toString();
-
-    console.log(email, password);
+export const signUpAction = async (formData: SignUpFormType) => {
+    console.log(formData);
 
 };
 
-export const signInAction = async (formData: FormData) => {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    await fetch(urlGenerator('/auth/users/jwt/create/'), {
+export const signInAction = async (formData: SignInFormType): Promise<ApiResponseType> => {
+    return await fetch(urlGenerator('/auth/users/jwt/create/'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            email,
-            password,
-        }),
+        body: JSON.stringify(formData),
     })
         .then((response) => response.json())
         .then(async (response) => {
@@ -32,10 +24,10 @@ export const signInAction = async (formData: FormData) => {
             const cookieStore = await cookies();
             cookieStore.set("access", access, { path: "/", httpOnly: true, maxAge: 60 * 60 * 24 });
             cookieStore.set("refresh", refresh, { path: "/", httpOnly: true, maxAge: 60 * 60 * 24 * 4 });
-            return redirect("/dashboard");
+            return { status: 200, data: { success: "Successfully signed in" } };
         })
-        .catch((error) => {
-            return redirect("/auth/sign-in");
+        .catch(async (error) => {
+            return await handleApiError(error);
         });
 };
 
@@ -63,4 +55,22 @@ export const fetchNewTokens = async (token: string) => {
 
 export const signOutAction = async () => {
     return redirect("/sign-in");
+};
+
+export const addBookAction = async (formData: BookFormType): Promise<ApiResponseType> => {
+    const access = await getAccessToken();
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access}`,
+        },
+        body: JSON.stringify(formData),
+    };
+    try {
+        const response = await fetch(urlGenerator('/book/create/'), options);
+        return await handleApiResponse(response);
+    } catch (error) {
+        return await handleApiError(error);
+    }
 };
