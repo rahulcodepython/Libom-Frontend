@@ -1,4 +1,3 @@
-import { createClient } from "@/utils/supabase/server";
 import {
     Card,
     CardContent,
@@ -7,20 +6,15 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { getUser } from "@/utils/utils";
 
 export default async function Dashboard() {
-    const supabase = await createClient();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
+    const user = await getUser();
     return (
         <div className="flex-1 w-full flex flex-col gap-4">
             <span>
                 <p className="text-muted-foreground">
-                    Welcome back, {user?.email}
+                    Welcome back, {user?.first_name + " " + user?.last_name}!
                 </p>
             </span>
             <div className="w-full grid grid-cols-3 gap-6">

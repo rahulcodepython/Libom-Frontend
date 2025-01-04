@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { createClient } from "@/utils/supabase/server";
 import { ThemeSwitcher } from "./theme-switcher";
 import UserIcon from "./user-icon";
 
@@ -30,13 +29,7 @@ export default async function Navbar() {
 }
 
 const NavButton = async () => {
-    const supabase = await createClient();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    return user ? (
+    return true ? (
         <UserIcon />
     ) : (
         <div className="flex gap-2">

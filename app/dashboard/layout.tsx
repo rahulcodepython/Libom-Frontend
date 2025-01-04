@@ -1,9 +1,7 @@
 import AppSidebar from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import UserIcon from "@/components/user-icon";
-import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import React from 'react'
 
 const DashboardLayout = async ({
@@ -11,16 +9,6 @@ const DashboardLayout = async ({
 }: {
     children: React.ReactNode;
 }) => {
-    const supabase = await createClient();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-        return redirect("/sign-in");
-    }
-
     return (
         <SidebarProvider>
             <AppSidebar />

@@ -1,15 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
 import BookBorrowConfirmation from "./BookBorrowConfirmation";
+import { isAuthenticated } from '@/utils/utils';
 
 const BookItem = async () => {
-    const supabase = await createClient();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    const isAuth = await isAuthenticated();
 
     return (
         <div className="grid grid-cols-2 border rounded-lg shadow md:flex-row md:max-w-xl">
@@ -31,7 +27,7 @@ const BookItem = async () => {
                         </span>
                     </div>
                     {
-                        user ? (
+                        isAuth ? (
                             // when user can borrow
                             <BookBorrowConfirmation />
 
