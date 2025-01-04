@@ -18,13 +18,16 @@ const BookItem = async () => {
                 <h5 className="tracking-tight">
                     Noteworthy technology acquisitions 2021
                 </h5>
-                <div className='flex flex-col gap-4'>
-                    <div className='flex items-center gap-2 text-xs'>
+                <div className='flex flex-col gap-1'>
+                    <div className="grid grid-cols-2 gap-1 text-xs mb-2">
                         <span className="text-gray-600">
-                            Author:John Doe
+                            Quantity:200
                         </span>
                         <span className="text-gray-600">
                             Price:200
+                        </span>
+                        <span className="text-gray-600 col-span-2">
+                            Category:John Doe
                         </span>
                     </div>
                     {

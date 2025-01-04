@@ -48,7 +48,7 @@ const AppSidebar = () => {
         },
         {
             title: "Subscription",
-            url: "/dashboard/checkout",
+            url: "/dashboard/subscription",
             icon: DollarSign,
         },
         {
