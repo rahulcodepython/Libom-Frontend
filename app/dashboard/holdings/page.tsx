@@ -17,8 +17,20 @@ import {
 } from "@/components/ui/table"
 import HoldingCalendar from './holding-calendar'
 import HoldingRecord from './holding-record'
+import { getAccessToken, urlGenerator } from '@/utils/utils'
+import { HoldingType } from '@/types'
 
-const Holdings = () => {
+const Holdings = async () => {
+    const access = await getAccessToken()
+
+    const response = await fetch(urlGenerator('/book/list/borrowed'), {
+        headers: {
+            'Authorization': `Bearer ${access}`
+        }
+    })
+
+    const data: HoldingType[] = await response.json()
+
     return (
         <div className='w-full flex flex-col gap-4'>
             <div className='flex items-start gap-4 w-full'>
@@ -32,26 +44,21 @@ const Holdings = () => {
                             <TableCaption>A list of your recent invoices.</TableCaption>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className="w-[100px]">Invoice</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Method</TableHead>
-                                    <TableHead className="text-right">Amount</TableHead>
+                                    <TableHead>Book</TableHead>
+                                    <TableHead>Borrow Date</TableHead>
+                                    <TableHead>Maximum Return Date</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <TableRow>
-                                    <TableCell className="font-medium">INV001</TableCell>
-                                    <TableCell>Paid</TableCell>
-                                    <TableCell>Credit Card</TableCell>
-                                    <TableCell className="text-right">$250.00</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell className="font-medium">INV001</TableCell>
-                                    <TableCell>Paid</TableCell>
-                                    <TableCell>Credit Card</TableCell>
-                                    <TableCell className="text-right">$250.00</TableCell>
-                                </TableRow>
-
+                                {
+                                    data.map((holding) => (
+                                        <TableRow key={holding.book}>
+                                            <TableCell>{holding.book}</TableCell>
+                                            <TableCell>{holding.borrow_date}</TableCell>
+                                            <TableCell>{holding.max_return_date}</TableCell>
+                                        </TableRow>
+                                    ))
+                                }
                             </TableBody>
                         </Table>
                     </CardContent>

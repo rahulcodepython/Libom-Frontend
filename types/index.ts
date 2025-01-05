@@ -85,3 +85,9 @@ export interface ReturningType {
     borrow_date: string,
     return_date: string | null,
 }
+
+export interface HoldingType {
+    book: string,
+    borrow_date: string,
+    max_return_date: string,
+}
