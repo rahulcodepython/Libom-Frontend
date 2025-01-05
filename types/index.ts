@@ -55,6 +55,7 @@ export interface PricingType {
     premium_book_access: boolean,
     holding_time: number,
     duration: 30 | 365,
+    subscribed: boolean,
 }
 
 export interface BookType {

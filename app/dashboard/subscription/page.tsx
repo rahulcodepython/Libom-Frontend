@@ -5,7 +5,6 @@ import { PricingType } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { subscribeAction } from "@/app/actions"
 import Link from 'next/link';
 
 const Subscription = async () => {
@@ -16,7 +15,7 @@ const Subscription = async () => {
             Authorization: `Bearer ${access}`
         }
     })
-    const data = await response.json()
+    const data: PricingType[] = await response.json()
 
     return (
         <div className="flex flex-col items-center justify-center gap-8 w-full mx-auto container">
@@ -65,7 +64,7 @@ const PricingCard = ({ plan }: {
 }) => (
     <Card>
         <CardHeader className="">
-            <CardTitle className="text-zinc-700 dark:text-zinc-300 text-lg">{plan.id.split('-')[0]}</CardTitle>
+            <CardTitle className="text-zinc-700 dark:text-zinc-300 text-lg">{plan.id.split('-')[1]}</CardTitle>
             <div className="flex gap-0.5">
                 <h3 className="text-3xl font-bold">
                     ₹{plan.amount}
@@ -105,7 +104,7 @@ const PricingCard = ({ plan }: {
                 </p>
             </div>
             <Link href={'/dashboard/checkout'} className="w-full">
-                <Button className="w-full mt-4">
+                <Button className="w-full mt-4" disabled={plan.subscribed}>
                     Get Started
                 </Button>
             </Link>
