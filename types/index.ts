@@ -53,3 +53,13 @@ export interface PricingType {
     holding_time: number,
     duration: 30 | 365,
 }
+
+export interface BookType {
+    isbn_no: string,
+    borrowed: boolean,
+    name: string,
+    author: string,
+    quantity: number,
+    category: string,
+    image: string,
+}

@@ -7,7 +7,7 @@ const EditBook = async ({ params }: { params: Promise<{ isbn_no: string | undefi
     const access = await getAccessToken();
 
     try {
-        const response = await fetch(urlGenerator(`/book/${isbn_no}/`), {
+        const response = await fetch(urlGenerator(`/book/book/${isbn_no}/`), {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${access}`,
