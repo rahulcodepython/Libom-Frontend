@@ -30,8 +30,11 @@ export interface BookFormType {
 }
 
 export interface ApiResponseType {
-    "status": number
-    "data": any
+    "status": 200 | 201 | 400 | 406
+    "data": {
+        "success"?: string
+        "error"?: string
+    } | any
 }
 
 export interface SignInFormType {
@@ -57,6 +60,7 @@ export interface PricingType {
 export interface BookType {
     isbn_no: string,
     borrowed: boolean,
+    request_pending: boolean,
     name: string,
     author: string,
     quantity: number,

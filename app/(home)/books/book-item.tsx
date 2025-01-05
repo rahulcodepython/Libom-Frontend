@@ -30,9 +30,11 @@ const BookItem = async ({ data }: {
                         </span>
                     </div>
                     {
-                        isAuth ? data.borrowed ? <Button className='w-full' disabled>
+                        isAuth ? data.request_pending ? <Button className='w-full' disabled>
+                            Pending
+                        </Button> : data.borrowed ? <Button className='w-full' disabled>
                             Borrowed
-                        </Button> : <BookBorrowConfirmation /> : (
+                        </Button> : <BookBorrowConfirmation isbn_no={data.isbn_no} /> : (
                             <Link href="/auth/sign-in">
                                 <Button className='w-full'>
                                     Sign In

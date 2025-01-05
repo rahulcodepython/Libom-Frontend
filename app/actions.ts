@@ -28,7 +28,7 @@ export const signInAction = async (formData: SignInFormType): Promise<ApiRespons
         })
         .catch(async (error) => {
             return await handleApiError(error);
-        });
+        }) as ApiResponseType;
 };
 
 export const fetchNewTokens = async (token: string) => {
@@ -69,9 +69,9 @@ export const addBookAction = async (formData: BookFormType): Promise<ApiResponse
     };
     try {
         const response = await fetch(urlGenerator('/book/create/'), options);
-        return await handleApiResponse(response);
+        return await handleApiResponse(response) as ApiResponseType;
     } catch (error) {
-        return await handleApiError(error);
+        return await handleApiError(error) as ApiResponseType;
     }
 };
 
@@ -87,9 +87,9 @@ export const editBookAction = async (formData: BookFormType, isbn_no: string): P
     };
     try {
         const response = await fetch(urlGenerator(`/book/edit/${isbn_no}/`), options);
-        return await handleApiResponse(response);
+        return await handleApiResponse(response) as ApiResponseType;
     } catch (error) {
-        return await handleApiError(error);
+        return await handleApiError(error) as ApiResponseType;
     }
 };
 
@@ -106,8 +106,25 @@ export const subscribeAction = async (planId: string): Promise<ApiResponseType> 
     };
     try {
         const response = await fetch(urlGenerator(`/transaction/subscribe/${planId}/`), options);
-        return await handleApiResponse(response);
+        return await handleApiResponse(response) as ApiResponseType;
     } catch (error) {
-        return await handleApiError(error);
+        return await handleApiError(error) as ApiResponseType;
+    }
+}
+
+export const borrowBookAction = async (isbn_no: string): Promise<ApiResponseType> => {
+    const access = await getAccessToken();
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access}`,
+        },
+    };
+    try {
+        const response = await fetch(urlGenerator(`/book/borrow/request/${isbn_no}/`), options);
+        return await handleApiResponse(response) as ApiResponseType;
+    } catch (error) {
+        return await handleApiError(error) as ApiResponseType;
     }
 }
