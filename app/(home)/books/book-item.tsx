@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import React from 'react'
 import { isAuthenticated } from '@/utils/utils';
 import BookBorrowConfirmation from './book-borrow-confirm';
@@ -30,17 +28,7 @@ const BookItem = async ({ data }: {
                         </span>
                     </div>
                     {
-                        isAuth ? data.request_pending ? <Button className='w-full' disabled>
-                            Pending
-                        </Button> : data.borrowed ? <Button className='w-full' disabled>
-                            Borrowed
-                        </Button> : <BookBorrowConfirmation isbn_no={data.isbn_no} /> : (
-                            <Link href="/auth/sign-in">
-                                <Button className='w-full'>
-                                    Sign In
-                                </Button>
-                            </Link>
-                        )
+                        <BookBorrowConfirmation data={data} isAuth={isAuth} />
                     }
                 </div>
             </div>

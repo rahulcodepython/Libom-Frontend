@@ -67,3 +67,11 @@ export interface BookType {
     category: string,
     image: string,
 }
+
+export interface BorrowingType {
+    id: string,
+    isbn_no: string,
+    user: string,
+    state: 'canceled' | 'approved' | 'pending',
+    date: string,
+}
