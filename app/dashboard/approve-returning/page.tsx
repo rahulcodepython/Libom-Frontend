@@ -9,14 +9,25 @@ import {
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { getAccessToken, urlGenerator } from '@/utils/utils'
+import { ReturningType } from '@/types'
+import ReturningAction from './returning-action'
 
-const ApproveReturn = () => {
+const ApproveBorrowing = async () => {
+    const access = await getAccessToken()
+
+    const response = await fetch(urlGenerator('/book/list/return/request/'), {
+        headers: {
+            'Authorization': `Bearer ${access}`,
+        }
+    })
+    const data: ReturningType[] = await response.json()
+
     return (
         <div className='w-full flex flex-col gap-4'>
             <Card className='w-full'>
@@ -26,29 +37,41 @@ const ApproveReturn = () => {
                 </CardHeader>
                 <CardContent>
                     <Table>
-                        <TableCaption>A list of your recent invoices.</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[100px]">Invoice</TableHead>
+                                <TableHead>ISBN No</TableHead>
+                                <TableHead>User</TableHead>
+                                <TableHead>Borrow Date</TableHead>
+                                <TableHead>Return Date</TableHead>
                                 <TableHead>Status</TableHead>
-                                <TableHead>Method</TableHead>
-                                <TableHead className="text-right">Amount</TableHead>
+                                <TableHead className="text-right">
+                                    Action
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow>
-                                <TableCell className="font-medium">INV001</TableCell>
-                                <TableCell>Paid</TableCell>
-                                <TableCell>Credit Card</TableCell>
-                                <TableCell className="text-right">$250.00</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell className="font-medium">INV001</TableCell>
-                                <TableCell>Paid</TableCell>
-                                <TableCell>Credit Card</TableCell>
-                                <TableCell className="text-right">$250.00</TableCell>
-                            </TableRow>
-
+                            {
+                                data.length === 0 ? <TableRow>
+                                    <TableCell colSpan={6} className="text-center">No data found</TableCell>
+                                </TableRow> :
+                                    data.map(record => {
+                                        return <TableRow key={record.id}>
+                                            <TableCell className="font-medium">
+                                                {record.isbn_no}
+                                            </TableCell>
+                                            <TableCell>
+                                                {record.user}
+                                            </TableCell>
+                                            <TableCell>
+                                                {record.borrow_date}
+                                            </TableCell>
+                                            <TableCell>
+                                                {record.return_date}
+                                            </TableCell>
+                                            <ReturningAction record={record} />
+                                        </TableRow>
+                                    })
+                            }
                         </TableBody>
                     </Table>
                 </CardContent>
@@ -57,4 +80,4 @@ const ApproveReturn = () => {
     )
 }
 
-export default ApproveReturn
+export default ApproveBorrowing

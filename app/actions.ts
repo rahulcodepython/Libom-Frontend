@@ -164,3 +164,22 @@ export const rejectBorrowingAction = async (borrowId: string): Promise<ApiRespon
         return await handleApiError(error) as ApiResponseType;
     }
 };
+
+
+export const approveReturningAction = async (returnId: string): Promise<ApiResponseType> => {
+    const access = await getAccessToken();
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access}`,
+        },
+    };
+
+    try {
+        const response = await fetch(urlGenerator(`/book/return/approve/${returnId}/`), options);
+        return await handleApiResponse(response) as ApiResponseType;
+    } catch (error) {
+        return await handleApiError(error) as ApiResponseType;
+    }
+};

@@ -76,3 +76,12 @@ export interface BorrowingType {
     state: 'canceled' | 'approved' | 'pending',
     date: string,
 }
+
+export interface ReturningType {
+    id: string,
+    isbn_no: string,
+    user: string,
+    state: 'approved' | 'pending',
+    borrow_date: string,
+    return_date: string | null,
+}

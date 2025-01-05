@@ -16,8 +16,6 @@ import {
 } from "@/components/ui/table"
 import { getAccessToken, urlGenerator } from '@/utils/utils'
 import { BorrowingType } from '@/types'
-import { CheckCircle2, Hourglass, XCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import BorrowingAction from './borrowing-action'
 
 const ApproveBorrowing = async () => {
