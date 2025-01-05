@@ -1,3 +1,4 @@
+import { subscribeAction } from '@/app/actions'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 
@@ -33,9 +34,14 @@ const Checkout = () => {
                         </dl>
                     </div>
                 </div>
-                <Button className='w-full'>
-                    Checkout
-                </Button>
+                <form className='w-full'>
+                    <Button className='w-full' type='submit' formAction={async (formData: FormData) => {
+                        "use server"
+                        await subscribeAction('Basic-1');
+                    }}>
+                        Checkout
+                    </Button>
+                </form>
             </div>
         </div>
     )

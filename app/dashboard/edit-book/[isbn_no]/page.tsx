@@ -6,17 +6,27 @@ const EditBook = async ({ params }: { params: Promise<{ isbn_no: string | undefi
     const isbn_no = (await params).isbn_no
     const access = await getAccessToken();
 
-    const response = await fetch(urlGenerator(`/book/${isbn_no}/`), {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${access}`,
-        }
-    });
-    const data = await response.json();
+    try {
+        const response = await fetch(urlGenerator(`/book/${isbn_no}/`), {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${access}`,
+            }
+        });
+        const data = await response.json();
 
-    return (
-        <BookForm edit defaultData={data} isbn_no={isbn_no} />
-    )
+        if (!response.ok) {
+            throw new Error(data.error || 'An error occurred while fetching the book data.');
+        }
+
+        return (
+            <BookForm edit defaultData={data} isbn_no={isbn_no} />
+        )
+    } catch (error: any) {
+        return (
+            <p>{error.message}</p>
+        )
+    }
 }
 
 export default EditBook

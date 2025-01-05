@@ -43,3 +43,13 @@ export interface SignUpFormType {
     "email": string
     "password": string
 }
+
+export interface PricingType {
+    id: string,
+    amount: number,
+    max_borrow: number,
+    journal_access: boolean,
+    premium_book_access: boolean,
+    holding_time: number,
+    duration: 30 | 365,
+}

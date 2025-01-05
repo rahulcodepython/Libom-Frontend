@@ -92,3 +92,22 @@ export const editBookAction = async (formData: BookFormType, isbn_no: string): P
         return await handleApiError(error);
     }
 };
+
+export const subscribeAction = async (planId: string): Promise<ApiResponseType> => {
+    console.log(planId);
+
+    const access = await getAccessToken();
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access}`,
+        },
+    };
+    try {
+        const response = await fetch(urlGenerator(`/transaction/subscribe/${planId}/`), options);
+        return await handleApiResponse(response);
+    } catch (error) {
+        return await handleApiError(error);
+    }
+}
