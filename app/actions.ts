@@ -41,7 +41,7 @@ export const fetchNewTokens = async (token: string) => {
     };
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/auth/users/jwt/refresh/", options);
+        const response = await fetch(urlGenerator("auth/users/jwt/refresh/"), options);
         const result = await response.json();
 
         const cookieStore = await cookies();

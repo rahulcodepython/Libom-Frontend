@@ -11,7 +11,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { ArrowLeftRight, Blocks, Book, Calendar, Check, CheckCircle, DollarSign, Home, Inbox, Pen, Search, Settings } from 'lucide-react'
+import { ArrowLeftRight, Blocks, Book, Check, CheckCircle, DollarSign, Home, Pen } from 'lucide-react'
 import Link from 'next/link'
 
 const AppSidebar = () => {
