@@ -1,14 +1,23 @@
 "use server";
 
 import { ApiResponseType, BookFormType, SignInFormType, SignUpFormType } from "@/types";
-import { getAccessToken, handleApiError, handleApiResponse, urlGenerator } from "@/utils/utils";
+import { handleApiError, handleApiResponse, urlGenerator } from "@/utils/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const signUpAction = async (formData: SignUpFormType) => {
     console.log(formData);
-
 };
+
+export const getAccessToken = async (): Promise<string | undefined> => {
+    const cookieStore = await cookies();
+    return cookieStore.get("access")?.value;
+}
+
+export const getRefreshToken = async (): Promise<string | undefined> => {
+    const cookieStore = await cookies();
+    return cookieStore.get("access")?.value;
+}
 
 export const signInAction = async (formData: SignInFormType): Promise<ApiResponseType> => {
     return await fetch(urlGenerator('/auth/users/jwt/create/'), {
@@ -22,8 +31,8 @@ export const signInAction = async (formData: SignInFormType): Promise<ApiRespons
             const refresh = response.refresh;
 
             const cookieStore = await cookies();
-            cookieStore.set("access", access, { path: "/", httpOnly: true, maxAge: 60 * 60 * 24 });
-            cookieStore.set("refresh", refresh, { path: "/", httpOnly: true, maxAge: 60 * 60 * 24 * 4 });
+            cookieStore.set("access", access, { maxAge: 60 * 60 * 24 }); //
+            cookieStore.set("refresh", refresh, { maxAge: 60 * 60 * 24 * 4 });
             return { status: 200, data: { success: "Successfully signed in" } };
         })
         .catch(async (error) => {
@@ -45,8 +54,8 @@ export const fetchNewTokens = async (token: string) => {
         const result = await response.json();
 
         const cookieStore = await cookies();
-        cookieStore.set("access", result.access, { path: "/", httpOnly: true, maxAge: 60 * 60 * 24 });
-        cookieStore.set("refresh", result.refresh, { path: "/", httpOnly: true, maxAge: 60 * 60 * 24 * 4 });
+        cookieStore.set("access", result.access, { maxAge: 60 * 60 * 24 });
+        cookieStore.set("refresh", result.refresh, { maxAge: 60 * 60 * 24 * 4 });
         return true;
     } catch (error) {
         return false;

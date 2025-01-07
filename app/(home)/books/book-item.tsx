@@ -2,11 +2,14 @@ import React from 'react'
 import { isAuthenticated } from '@/utils/utils';
 import BookBorrowConfirmation from './book-borrow-confirm';
 import { BookType } from '@/types';
+import { cookies } from 'next/headers';
+import { getAccessToken } from '@/app/actions';
 
 const BookItem = async ({ data }: {
     data: BookType
 }) => {
-    const isAuth = await isAuthenticated();
+    const access = await getAccessToken();
+    const isAuth = isAuthenticated(access);
 
     return (
         <div className="grid grid-cols-2 border rounded-lg shadow md:flex-row md:max-w-xl">

@@ -1,11 +1,12 @@
 import React from 'react'
 import BookItem from './book-item'
-import { getAccessToken, isAuthenticated, urlGenerator } from '@/utils/utils';
+import { isAuthenticated, urlGenerator } from '@/utils/utils';
 import { BookType } from '@/types';
+import { getAccessToken } from '@/app/actions';
 
 const Books = async () => {
-    const isAuth = await isAuthenticated();
     const access = await getAccessToken();
+    const isAuth = isAuthenticated(access);
 
     const response = await fetch(urlGenerator('/book/list/'), {
         method: 'GET',

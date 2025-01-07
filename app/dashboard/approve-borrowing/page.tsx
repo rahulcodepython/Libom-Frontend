@@ -14,9 +14,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { getAccessToken, urlGenerator } from '@/utils/utils'
+import { urlGenerator } from '@/utils/utils'
 import { BorrowingType } from '@/types'
 import BorrowingAction from './borrowing-action'
+import { getAccessToken } from '@/app/actions'
 
 const ApproveBorrowing = async () => {
     const access = await getAccessToken()

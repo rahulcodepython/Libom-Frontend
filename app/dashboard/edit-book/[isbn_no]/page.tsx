@@ -1,5 +1,6 @@
+import { getAccessToken } from '@/app/actions'
 import BookForm from '@/components/book-form'
-import { getAccessToken, urlGenerator } from '@/utils/utils'
+import { urlGenerator } from '@/utils/utils'
 import React from 'react'
 
 const EditBook = async ({ params }: { params: Promise<{ isbn_no: string | undefined }> }) => {

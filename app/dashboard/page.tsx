@@ -7,9 +7,12 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { getUser } from "@/utils/utils";
+import { getAccessToken } from "../actions";
 
 export default async function Dashboard() {
-    const user = await getUser();
+    const access = await getAccessToken();
+    const user = getUser(access);
+
     return (
         <div className="flex-1 w-full flex flex-col gap-4">
             <span>

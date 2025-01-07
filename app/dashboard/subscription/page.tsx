@@ -1,4 +1,4 @@
-import { getAccessToken, urlGenerator } from '@/utils/utils'
+import { urlGenerator } from '@/utils/utils'
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PricingType } from '@/types';
@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
+import { getAccessToken } from '@/app/actions';
 
 const Subscription = async () => {
     const access = await getAccessToken();

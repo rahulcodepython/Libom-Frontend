@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/table"
 import HoldingCalendar from './holding-calendar'
 import HoldingRecord from './holding-record'
-import { getAccessToken, urlGenerator } from '@/utils/utils'
+import { urlGenerator } from '@/utils/utils'
 import { HoldingType } from '@/types'
+import { getAccessToken } from '@/app/actions'
 
 const Holdings = async () => {
     const access = await getAccessToken()

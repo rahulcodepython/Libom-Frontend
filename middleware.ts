@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticated, revalidateTokens } from "./utils/utils";
 import { cookies } from "next/headers";
+import { getAccessToken, getRefreshToken } from "./app/actions";
 
 const AUTH_ROUTE = '/auth';
 const PROTECTED_ROUTE = '/dashboard';
 
 export async function middleware(request: NextRequest) {
+    const access = await getAccessToken();
+    const refresh = await getRefreshToken();
+
     const { pathname } = request.nextUrl;
 
     const redirectAuthenticateUser = () => {
@@ -22,10 +26,10 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    const auth: boolean = await isAuthenticated();
+    const auth: boolean = isAuthenticated(access);
 
     if (!auth) {
-        const tokens = await revalidateTokens();
+        const tokens = await revalidateTokens(refresh);
 
         if (!tokens) {
             const cookieStore = await cookies();
