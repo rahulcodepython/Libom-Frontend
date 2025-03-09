@@ -20,24 +20,22 @@ export const getRefreshToken = async (): Promise<string | undefined> => {
 }
 
 export const signInAction = async (formData: SignInFormType): Promise<ApiResponseType> => {
-    return await fetch(urlGenerator('/auth/users/jwt/create/'), {
+    const response = await fetch(urlGenerator('/auth/users/jwt/create/'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-    })
-        .then((response) => response.json())
-        .then(async (response) => {
-            const access = response.access;
-            const refresh = response.refresh;
+    });
 
-            const cookieStore = await cookies();
-            cookieStore.set("access", access, { maxAge: 60 * 60 * 24 }); //
-            cookieStore.set("refresh", refresh, { maxAge: 60 * 60 * 24 * 4 });
-            return { status: 200, data: { success: "Successfully signed in" } };
-        })
-        .catch(async (error) => {
-            return await handleApiError(error);
-        }) as ApiResponseType;
+    if (response.ok) {
+        const result = await response.json();
+        const cookieStore = await cookies();
+        cookieStore.set("access", result.access, { maxAge: 60 * 60 * 24 });
+        cookieStore.set("refresh", result.refresh, { maxAge: 60 * 60 * 24 * 4 });
+        return { status: 200, data: { success: "Successfully signed in" } };
+    } else {
+        return await handleApiError(response) as ApiResponseType;
+    }
+
 };
 
 export const fetchNewTokens = async (token: string) => {

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 import UserIcon from "./user-icon";
+import { getAccessToken } from "@/app/actions";
+import { isAuthenticated } from "@/utils/utils";
 
 export default async function Navbar() {
 
@@ -29,16 +31,14 @@ export default async function Navbar() {
 }
 
 const NavButton = async () => {
-    return true ? (
+    const access = await getAccessToken();
+    const isAuth = isAuthenticated(access);
+
+    return isAuth ? (
         <UserIcon />
     ) : (
-        <div className="flex gap-2">
-            <Button asChild size="sm" variant={"outline"}>
-                <Link href="/sign-in">Sign in</Link>
-            </Button>
-            <Button asChild size="sm" variant={"default"}>
-                <Link href="/sign-up">Sign up</Link>
-            </Button>
-        </div>
+        <Button asChild size="sm" variant={"outline"}>
+            <Link href="/auth/sign-in">Sign in</Link>
+        </Button>
     );
 }

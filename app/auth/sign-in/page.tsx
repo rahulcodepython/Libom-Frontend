@@ -23,6 +23,7 @@ export default function Login() {
             console.log("Invalid data");
             return;
         }
+
         const result = await signInAction(data)
 
         if (result && formRef.current) {

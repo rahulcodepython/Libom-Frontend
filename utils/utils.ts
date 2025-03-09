@@ -89,7 +89,7 @@ export const handleApiError = async (error: any) => {
         const errorData = await error.json();
         return {
             status: error.status,
-            data: { error: errorData.message },
+            data: errorData,
         };
     }
     return {
